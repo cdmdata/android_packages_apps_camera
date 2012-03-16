@@ -500,6 +500,9 @@ public class PanoramaActivity extends ActivityBase implements
          * so let's be safe and use synchronize. No OpenGL calls can be done here.
          */
         // Updating the texture should be done in the GL thread which mMosaicView is attached.
+        if (mPausing || mSurfaceTexture == null){
+            return;
+        }
         mMosaicView.queueEvent(new Runnable() {
             @Override
             public void run() {
