@@ -621,7 +621,7 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
                 }
             }
             mImageCapture.storeImage(jpegData, camera, mLocation);
-
+            
             // Calculate this in advance of each shot so we don't add to shutter
             // latency. It's true that someone else could write to the SD card in
             // the mean time and fill it, but that could have happened between the
@@ -648,7 +648,7 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
                 boolean focused, android.hardware.Camera camera) {
             mFocusCallbackTime = System.currentTimeMillis();
             mAutoFocusTime = mFocusCallbackTime - mFocusStartTime;
-            Log.v(TAG, "mAutoFocusTime = " + mAutoFocusTime + "ms");
+            Log.v(TAG, "mAutoFocusTime = " + mAutoFocusTime + "ms. FocusState: " + mFocusState + ". Focused: " + focused);
             if (mFocusState == FOCUSING_SNAP_ON_FINISH) {
                 // Take the picture no matter focus succeeds or fails. No need
                 // to play the AF sound if we're about to play the shutter
@@ -895,6 +895,14 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
 
         mNumberOfCameras = CameraHolder.instance().getNumberOfCameras();
 
+        mSurfaceView.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				Log.w(TAG, "Preview touched. Initiating focus...");
+				doFocus(true);
+			}
+		});
+        
         // we need to reset exposure for the preview
         resetExposureCompensation();
         /*
@@ -1412,19 +1420,22 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
             mFocusStartTime = System.currentTimeMillis();
             mFocusState = FOCUSING;
             updateFocusIndicator();
+            Log.w(TAG, "Focus mCameraDevice.autoFocus(mAutoFocusCallback)...");
             mCameraDevice.autoFocus(mAutoFocusCallback);
         }
     }
 
     private void cancelAutoFocus() {
+    	Log.d(TAG, Camera.class.getSimpleName() + ".cancelAutoFocus. mFocusState=" + mFocusState + ". mStatus=" + mStatus);
         // User releases half-pressed focus key.
         if (mStatus != SNAPSHOT_IN_PROGRESS && (mFocusState == FOCUSING
-                || mFocusState == FOCUS_SUCCESS || mFocusState == FOCUS_FAIL)) {
+                || mFocusState == FOCUS_SUCCESS || mFocusState == FOCUS_FAIL || mFocusState == FOCUS_NOT_STARTED)) {
             Log.v(TAG, "Cancel autofocus.");
             mHeadUpDisplay.setEnabled(true);
             mCameraDevice.cancelAutoFocus();
         }
         if (mFocusState != FOCUSING_SNAP_ON_FINISH) {
+        	//mCameraDevice.cancelAutoFocus();
             clearFocusState();
         }
     }
@@ -1539,6 +1550,9 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
             } else {  // Focus key up.
                 cancelAutoFocus();
             }
+        }
+        else {
+        	Log.w(TAG, "Will not do AF becuase camera is in infinity focus mode.");
         }
     }
 
