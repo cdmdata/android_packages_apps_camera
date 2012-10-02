@@ -606,6 +606,7 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
                 mPictureDisplayedToJpegCallbackTime =
                         mJpegPictureCallbackTime - mRawPictureCallbackTime;
             }
+            Log.v(TAG, "TEST");
             Log.v(TAG, "mPictureDisplayedToJpegCallbackTime = "
                     + mPictureDisplayedToJpegCallbackTime + "ms");
             mHeadUpDisplay.setEnabled(true);
@@ -639,6 +640,10 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
                         + mJpegCallbackFinishTime + "ms");
                 mJpegPictureCallbackTime = 0;
             }
+            
+            Log.v(TAG, "Canceling AF...");
+            mCameraDevice.cancelAutoFocus();
+            Log.v(TAG, "JpegPictureCallback.onPictureTaken done");
         }
     }
 
@@ -898,8 +903,9 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
         mSurfaceView.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				Log.w(TAG, "Preview touched. Initiating focus...");
-				doFocus(true);
+				Log.w(TAG, "Preview touched. Canceling focus...");
+				//doFocus(true);
+				cancelAutoFocus();
 			}
 		});
         
@@ -1430,7 +1436,7 @@ public class Camera extends NoSearchActivity implements View.OnClickListener,
         // User releases half-pressed focus key.
         if (mStatus != SNAPSHOT_IN_PROGRESS && (mFocusState == FOCUSING
                 || mFocusState == FOCUS_SUCCESS || mFocusState == FOCUS_FAIL || mFocusState == FOCUS_NOT_STARTED)) {
-            Log.v(TAG, "Cancel autofocus.");
+            Log.v(TAG, "Calling mCameraDevice.cancelAutoFocus()");
             mHeadUpDisplay.setEnabled(true);
             mCameraDevice.cancelAutoFocus();
         }
