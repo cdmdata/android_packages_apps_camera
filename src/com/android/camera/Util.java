@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
@@ -313,7 +314,7 @@ public class Util {
 
     public static void setCameraDisplayOrientation(Activity activity,
             int cameraId, Camera camera) {
-        // See android.hardware.Camera.setCameraDisplayOrientation for
+    	// See android.hardware.Camera.setCameraDisplayOrientation for
         // documentation.
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(cameraId, info);
@@ -326,5 +327,33 @@ public class Util {
             result = (info.orientation - degrees + 360) % 360;
         }
         camera.setDisplayOrientation(result);
+//        // See android.hardware.Camera.setCameraDisplayOrientation for
+//        // documentation.
+//        Camera.CameraInfo info = new Camera.CameraInfo();
+//        Camera.getCameraInfo(cameraId, info);
+//        // We're always working in a landscape layout. We can ignore getDisplayRotation
+//        // figure which can provide incorrect rotation or provide rotation figure too
+//        // soon, such as when opening from the lockscreen which is portrait.
+//        // As intended layout is landscape, we aim for 90 degrees from which to calculate
+//        // orientation.
+//        int degrees = 90;
+//        int result;
+//        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT &&
+//                info.orientation != 90) {
+//            result = (info.orientation + degrees) % 360;
+//            result = (360 - result) % 360;  // compensate the mirror
+//        } else {  // back-facing (or acting like it)
+//            result = (info.orientation - degrees + 360) % 360;
+//        }
+//
+//        // Ugly hack: Make sure the flip-mode is completely off
+//        // on nv-cameras. We may be enabling it for other apps
+//        Parameters parameters = camera.getParameters();
+//        if (parameters.get("nv-flip-mode") != null) {
+//            parameters.set("nv-flip-mode", "off");
+//            camera.setParameters(parameters);
+//        }
+//
+//        camera.setDisplayOrientation(result);
     }
 }
