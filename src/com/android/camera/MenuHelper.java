@@ -94,14 +94,15 @@ public class MenuHelper {
                 }
             }
         };
-        new AlertDialog.Builder(context)
+        AlertDialog dlg = new AlertDialog.Builder(context)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(android.R.string.ok, listener)
             .setNegativeButton(android.R.string.cancel, listener)
-            .create()
-            .show();
+            .create();
+ 
+        //dlg.show();
     }
 
     static void addSwitchModeMenuItem(Menu menu, boolean switchToVideo,

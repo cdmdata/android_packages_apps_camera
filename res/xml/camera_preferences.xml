@@ -121,6 +121,10 @@
         <ListPreference
                 camera:key="pref_camera_saturation_key"
                 camera:entryValues="@array/pref_camera_multilevel_entryvalues" />
-
+		<ListPreference
+                camera:key="pref_camera_videoquality_key"
+                camera:defaultValue="@string/pref_video_quality_entry_low"
+                camera:entries="@array/pref_video_quality_entries"
+				camera:entryValues="@array/pref_video_quality_entryvalues"/>
     </PreferenceGroup>
 </PreferenceGroup>

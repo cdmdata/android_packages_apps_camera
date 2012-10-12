@@ -1556,7 +1556,7 @@ public class Camera extends BaseCamera implements View.OnClickListener,
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean searchShutter = prefs.getBoolean("search_shutter_enabled", false);
+        boolean searchShutter = prefs.getBoolean("search_shutter_enabled", true);
         boolean volUpShutter = prefs.getBoolean("vol_up_shutter_enabled", false);
         boolean volDownShutter = prefs.getBoolean("vol_down_shutter_enabled", false);
         boolean volZoom = prefs.getBoolean("vol_zoom_enabled", false);
@@ -2366,13 +2366,14 @@ public class Camera extends BaseCamera implements View.OnClickListener,
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        if (mIsImageCaptureIntent) {
-            // No options menu for attach mode.
-            return false;
-        } else {
-            addBaseMenuItems(menu);
-        }
-        return true;
+//        if (mIsImageCaptureIntent) {
+//            // No options menu for attach mode.
+//            return false;
+//        } else {
+//            addBaseMenuItems(menu);
+//        }
+//        return true;
+        return false;
     }
 
     private void addBaseMenuItems(Menu menu) {

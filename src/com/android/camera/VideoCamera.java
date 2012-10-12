@@ -445,7 +445,7 @@ public class VideoCamera extends BaseCamera
             group = filterPreferenceScreenByIntent(group);
         }
 
-        mZoomSupported = CameraSettings.isVideoZoomSupported(this, mCameraId, mParameters);
+        mZoomSupported = false ;//CameraSettings.isVideoZoomSupported(this, mCameraId, mParameters);
         mHeadUpDisplay.initialize(this, group,
                 mZoomSupported ? getZoomRatios() : null,
                 mOrientationCompensation, mParameters);
@@ -975,13 +975,14 @@ public class VideoCamera extends BaseCamera
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        if (mIsVideoCaptureIntent) {
-            // No options menu for attach mode.
-            return false;
-        } else {
-            addBaseMenuItems(menu);
-        }
-        return true;
+//        if (mIsVideoCaptureIntent) {
+//            // No options menu for attach mode.
+//            return false;
+//        } else {
+//            addBaseMenuItems(menu);
+//        }
+//        return true;
+        return false;
     }
 
     private boolean isVideoCaptureIntent() {

@@ -44,6 +44,7 @@ public class CameraSettings {
     public static final String KEY_LOCAL_VERSION = "pref_local_version_key";
     public static final String KEY_RECORD_LOCATION = RecordLocationPreference.KEY;
     public static final String KEY_VIDEO_QUALITY = "pref_video_quality_key";
+    public static final String KEY_VIDEO_DURATION = "pref_camera_video_duration_key";
     public static final String KEY_PICTURE_SIZE = "pref_camera_picturesize_key";
     public static final String KEY_JPEG_QUALITY = "pref_camera_jpegquality_key";
     public static final String KEY_FOCUS_MODE = "pref_camera_focusmode_key";
@@ -70,6 +71,7 @@ public class CameraSettings {
     private static final String VIDEO_QUALITY_YOUTUBE_HD = "youtubehd";
     private static final String VIDEO_QUALITY_YOUTUBE = "youtube";
     private static final String VIDEO_QUALITY_DIGITALLOT = "digitallotvideo";
+    private static final String VIDEO_QUALITY_LOW = "low";
 
     public static final String EXPOSURE_DEFAULT_VALUE = "0";
 
@@ -480,6 +482,9 @@ public class CameraSettings {
             editor.remove("pref_camera_videoquality_key");
             editor.remove("pref_camera_video_duration_key");
         }
+        
+        
+        
         editor.putInt(KEY_VERSION, CURRENT_VERSION);
         editor.apply();
     }
@@ -490,7 +495,7 @@ public class CameraSettings {
     }
 
     public static final String getDefaultVideoQuality(int cameraId) {
-        return isHDCapable(cameraId) ? VIDEO_QUALITY_HD : VIDEO_QUALITY_HIGH;
+        return isHDCapable(cameraId) ? VIDEO_QUALITY_HD : VIDEO_QUALITY_LOW;
     }
 
     public static final boolean isHDCapable(int cameraId) {
