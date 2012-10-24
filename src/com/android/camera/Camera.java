@@ -1108,21 +1108,21 @@ public class Camera extends BaseCamera implements View.OnClickListener,
             // We keep the last known orientation. So if the user first orient
             // the camera then point the camera to floor or sky, we still have
             // the correct orientation.
-        	Log.v(TAG, "Got orientation change notification. Ignoring for now....");
+        	Log.v(TAG, "Got orientation change notification: " + orientation);
         	
-//            if (orientation == ORIENTATION_UNKNOWN) return;
-//            mOrientation = roundOrientation(orientation);
-//            // When the screen is unlocked, display rotation may change. Always
-//            // calculate the up-to-date orientationCompensation.
-//            int orientationCompensation = mOrientation
-//                    + Util.getDisplayRotation(Camera.this);
-//            if (mOrientationCompensation != orientationCompensation) {
-//                mOrientationCompensation = orientationCompensation;
-//                if (!mIsImageCaptureIntent) {
-//                    setOrientationIndicator(mOrientationCompensation);
-//                }
-//                mHeadUpDisplay.setOrientation(mOrientationCompensation);
-//            }
+            if (orientation == ORIENTATION_UNKNOWN) return;
+            mOrientation = roundOrientation(orientation);
+            // When the screen is unlocked, display rotation may change. Always
+            // calculate the up-to-date orientationCompensation.
+            int orientationCompensation = mOrientation
+                    + Util.getDisplayRotation(Camera.this);
+            if (mOrientationCompensation != orientationCompensation) {
+                mOrientationCompensation = orientationCompensation;
+                if (!mIsImageCaptureIntent) {
+                    setOrientationIndicator(mOrientationCompensation);
+                }
+                mHeadUpDisplay.setOrientation(mOrientationCompensation);
+            }
         }
     }
 

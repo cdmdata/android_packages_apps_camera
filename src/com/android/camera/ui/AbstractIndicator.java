@@ -19,6 +19,7 @@ package com.android.camera.ui;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Transformation;
 
@@ -67,6 +68,7 @@ abstract class AbstractIndicator extends GLView {
     }
 
     public void setOrientation(int orientation) {
+    	Log.w("","AbstractIndicator.setOrientation: " + orientation);
         if (orientation % 90 != 0) throw new IllegalArgumentException();
         orientation = orientation % 360;
         if (orientation < 0) orientation += 360;
