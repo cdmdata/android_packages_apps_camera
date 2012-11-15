@@ -17,6 +17,18 @@
 
 package com.android.camera;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -60,36 +72,27 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.android.camera.gallery.IImage;
 import com.android.camera.gallery.IImageList;
 import com.android.camera.ui.CameraHeadUpDisplay;
 import com.android.camera.ui.GLRootView;
 import com.android.camera.ui.HeadUpDisplay;
 import com.android.camera.ui.ZoomControllerListener;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /** The Camera activity which can preview and take pictures. */
 public class Camera extends BaseCamera implements View.OnClickListener,
@@ -1018,6 +1021,26 @@ public class Camera extends BaseCamera implements View.OnClickListener,
         } catch (InterruptedException ex) {
             // ignore
         }
+        
+        final Button btnDebug = (Button)findViewById(R.id.btnDebug);
+        btnDebug.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "btnDebug clicked. Calling focusStepNear");
+				mCameraDevice.sendDebugCommand(101,0,0);
+			}
+		});
+        
+        final Button btnDebug2 = (Button)findViewById(R.id.btnDebug2);
+        btnDebug2.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "btnDebug2 clicked. Calling focusStepFar");
+				mCameraDevice.sendDebugCommand(102,0,0);
+			}
+		});
     }
 
     private void changeHeadUpDisplayState() {

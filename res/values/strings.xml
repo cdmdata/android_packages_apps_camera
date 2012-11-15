@@ -541,5 +541,6 @@
      <string name="pref_camera_autoexposure_value_centerweighted" translatable="false">meter-center</string>
      <string name="pref_camera_autoexposure_value_spotmetering" translatable="false">meter-spot</string>
      <string name="pref_camera_autoexposure_value_matrixmetering" translatable="false">meter-matrix</string>
+     <string name="debug">Debug</string>
 
 </resources>
