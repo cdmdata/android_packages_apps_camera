@@ -45,22 +45,48 @@
                 android:layout_height="100dip"
                 android:layout_gravity="center" />
 
-            <Button
-                android:id="@+id/btnDebug"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/debug" 
                 android:layout_gravity="top|left"
-                android:visibility="visible" />
+                android:orientation="horizontal" >
+	            <Button
+	                android:id="@+id/btnFocusNear"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/focus_to_near" 
+	                android:visibility="gone" />
+	            
+	            <Button
+	                android:id="@+id/btnFocusFar"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/focus_to_far" 
+	                android:visibility="gone" />
+	
+	            <EditText 
+	                android:id="@+id/txtReg"
+	                android:layout_width="100dp"
+	                android:layout_height="wrap_content"
+	                android:visibility="gone"
+	                />
+	            
+	            <EditText 
+	                android:id="@+id/txtRegValue"
+	                android:layout_width="100dp"
+	                android:layout_height="wrap_content"
+	                android:visibility="gone"
+                />
+	            
+	            <Button
+	                android:id="@+id/btnWriteReg"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/write_reg" 
+	                android:visibility="gone" />
             
-            <Button
-                android:id="@+id/btnDebug2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/debug" 
-                android:layout_gravity="top|center"
-                android:visibility="visible" />
-
+            </LinearLayout>
+            
             <com.android.camera.ui.RotateRecordingTime
                 android:id="@+id/recording_time_rect"
                 android:layout_width="wrap_content"

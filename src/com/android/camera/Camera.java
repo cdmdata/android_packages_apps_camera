@@ -86,6 +86,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.EditText;
 
 import com.android.camera.gallery.IImage;
 import com.android.camera.gallery.IImageList;
@@ -1022,23 +1023,45 @@ public class Camera extends BaseCamera implements View.OnClickListener,
             // ignore
         }
         
-        final Button btnDebug = (Button)findViewById(R.id.btnDebug);
-        btnDebug.setOnClickListener(new OnClickListener() {
+        final Button btnFocusNear = (Button)findViewById(R.id.btnFocusNear);
+        btnFocusNear.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Log.v(TAG, "btnDebug clicked. Calling focusStepNear");
+				Log.v(TAG, "btnFocusNear clicked. Calling focusStepNear");
 				mCameraDevice.sendDebugCommand(101,0,0);
 			}
 		});
         
-        final Button btnDebug2 = (Button)findViewById(R.id.btnDebug2);
-        btnDebug2.setOnClickListener(new OnClickListener() {
+        final Button btnFocusFar = (Button)findViewById(R.id.btnFocusFar);
+        btnFocusFar.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Log.v(TAG, "btnDebug2 clicked. Calling focusStepFar");
+				Log.v(TAG, "btnFocusFar clicked. Calling focusStepFar");
 				mCameraDevice.sendDebugCommand(102,0,0);
+			}
+		});
+        
+        
+        
+        final Button btnWriteReg = (Button)findViewById(R.id.btnWriteReg);
+        btnWriteReg.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "btnWriteReg clicked.");
+				final EditText txtReg = (EditText)findViewById(R.id.txtReg);
+				final EditText txtRegValue = (EditText)findViewById(R.id.txtRegValue);
+				int reg = 0;
+				int regValue = 0;
+				try {
+					reg = Integer.parseInt(txtReg.getText().toString(), 16);
+					regValue = Integer.parseInt(txtRegValue.getText().toString(), 16);
+				} catch(NumberFormatException nfe) {
+				   Log.e(TAG, "Could not parse value to int");
+				} 
+				mCameraDevice.sendDebugCommand(103, reg, regValue);
 			}
 		});
     }
