@@ -677,6 +677,14 @@ public class Camera extends BaseCamera implements View.OnClickListener,
             mStatus = IDLE;
             decrementkeypress();
             cancelAutoFocus();
+
+            // new Handler().postDelayed(new Runnable(){
+            //         @Override
+            //         public void run() {
+            //             mImageCapture.initiate();
+            //         }                   
+            //     }, 3000);
+
         }
         }
 
@@ -1618,11 +1626,11 @@ public class Camera extends BaseCamera implements View.OnClickListener,
                     doSnap();
                 }
                 return true;
-            case KeyEvent.KEYCODE_SEARCH:
-                if (searchShutter) {
-                    doShutter(prefs, event);
-                }
-                return true;
+            //case KeyEvent.KEYCODE_SEARCH:
+                // if (searchShutter) {
+                //     doShutter(prefs, event);
+                // }
+                //return true;
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (volUpShutter && doShutter(prefs, event)) {
                     return true;
@@ -1648,6 +1656,7 @@ public class Camera extends BaseCamera implements View.OnClickListener,
 //                    doFocus(true);
 //                }
 //                return true;
+            case KeyEvent.KEYCODE_SEARCH:
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 // If we get a dpad center event without any focused view, move
                 // the focus to the shutter button and press it.
@@ -1721,7 +1730,7 @@ public class Camera extends BaseCamera implements View.OnClickListener,
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        boolean longFocus = prefs.getBoolean("long_focus_enabled", false);
+        boolean longFocus = prefs.getBoolean("long_focus_enabled", true);
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_SEARCH:
