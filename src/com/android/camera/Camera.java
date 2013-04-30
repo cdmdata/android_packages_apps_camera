@@ -95,6 +95,10 @@ import com.android.camera.ui.GLRootView;
 import com.android.camera.ui.HeadUpDisplay;
 import com.android.camera.ui.ZoomControllerListener;
 
+import android.os.IPowerManager;
+import android.os.ServiceManager;
+import android.os.RemoteException;
+
 /** The Camera activity which can preview and take pictures. */
 public class Camera extends BaseCamera implements View.OnClickListener,
         ShutterButton.OnShutterButtonListener, SurfaceHolder.Callback,
@@ -239,6 +243,8 @@ public class Camera extends BaseCamera implements View.OnClickListener,
     private int mImageWidth = 0;
     private int mImageHeight = 0;
 
+    private int mSystemScreenBrightness = 0;
+
     /**
      * This Handler is used to post message back onto the main thread of the
      * application
@@ -339,6 +345,14 @@ public class Camera extends BaseCamera implements View.OnClickListener,
             mThumbController.loadData(ImageManager.getLastImageThumbPath());
             // Update last image thumbnail.
             updateThumbnailButton();
+        }
+
+        //get the system brightness
+        try {
+            mSystemScreenBrightness = Settings.System.getInt(mContentResolver, 
+                Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Exception doe) {
+            mSystemScreenBrightness = 128;
         }
 
         // Initialize shutter button.
@@ -953,6 +967,7 @@ public class Camera extends BaseCamera implements View.OnClickListener,
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
         prefs = getSharedPreferences("com.android.camera_preferences", 0);
         //powerShutter(prefs);
         setContentView(R.layout.camera);
@@ -1072,6 +1087,18 @@ public class Camera extends BaseCamera implements View.OnClickListener,
 				mCameraDevice.sendDebugCommand(103, reg, regValue);
 			}
 		});
+    }
+
+    private void setBrightness(int brightness) {
+        try {
+            IPowerManager power = IPowerManager.Stub.asInterface(
+                    ServiceManager.getService("power"));
+            if (power != null) {
+                power.setBacklightBrightness(brightness);
+            }
+        } catch (RemoteException doe) {
+            
+        }        
     }
 
     private void changeHeadUpDisplayState() {
@@ -1447,6 +1474,8 @@ public class Camera extends BaseCamera implements View.OnClickListener,
     protected void onResume() {
         super.onResume();
 
+        setBrightness(255);
+
         mPausing = false;
         mJpegPictureCallbackTime = 0;
         mZoomValue = 0;
@@ -1488,6 +1517,8 @@ public class Camera extends BaseCamera implements View.OnClickListener,
         closeCamera();
         resetScreenOn();
         changeHeadUpDisplayState();
+
+        setBrightness(mSystemScreenBrightness);
 
         if (mFirstTimeInitialized) {
             mOrientationListener.disable();
